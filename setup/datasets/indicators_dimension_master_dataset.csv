@@ -1,0 +1,12 @@
+id,role,name,short_name,description
+1001,price,Término de facturación de energía activa del PVPC 2.0TD,PVPC T. 2.0TD,"Precio horario del término de energía que se aplican en la factura eléctrica de los consumidores."
+600,price,Precio mercado SPOT Diario,Mercado SPOT,"El Mercado Diario es un mercado mayorista en el que se establecen transacciones de energía eléctrica para el día siguiente."
+544,demand,Demanda prevista,Demanda prevista,"Es la previsión de consumo que RE elabora teniendo en cuenta los valores de consumo registrados en periodos precedentes."
+1293,demand,Demanda real,Demanda real,"Es el valor real de la demanda de energía eléctrica medida en tiempo real."
+541,energy_predictor,Previsión de la producción eólica peninsular,Previsión eólica,"Previsión horaria de energía eólica según el Modelo de Predicción Eólica del Operador del Sistema."
+1779,energy_predictor,Previsión diaria D+1 fotovoltaica,Previsión diaria D+1 fotovoltaica,"Previsión de generación solar para el día siguiente."
+14,energy_predictor,Generación programada PBF Solar fotovoltaica,Solar fotovoltaica,"Es el programa de energía diario... de las diferentes Unidades de Programación correspondientes a ventas."
+12,energy_source,Generación programada PBF Eólica terrestre,Eólica terrestre,"Generación programada para eólica terrestre."
+1,energy_source,Generación programada PBF Hidráulica UGH,Hidráulica UGH,"Generación programada para hidráulica gestionable (embalses)."
+4,energy_source,Generación programada PBF Nuclear,Nuclear,"Generación programada para nuclear (Carga base)."
+9,energy_source,Generación programada PBF Ciclo combinado,Ciclo combinado,"Generación programada para gas (Precio marginal)."
