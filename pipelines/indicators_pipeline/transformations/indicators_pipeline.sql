@@ -5,7 +5,7 @@ SELECT
   _metadata.file_path AS metadata_file_path,
   _metadata.file_modification_time as metadata_file_modification_time
 FROM STREAM READ_FILES(
-  f'/Volumes/{catalog}/{schema}/indicator_metrics',
+  '/Volumes/${catalog}/${schema}/indicator_metrics',
   format => 'json',
   schema => '
     indicator STRUCT<
