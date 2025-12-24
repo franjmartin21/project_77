@@ -1,0 +1,124 @@
+bundle:
+  name: project_77
+
+variables:
+  catalog:
+    description: Unity Catalog catalog used by notebooks and pipelines
+    default: francisco_martin_workspace
+  schema:
+    description: Default schema (database) for project artifacts
+    default: project_77_indicators
+  scope:
+    description: Secret scope for credentials and configs
+    default: project-77-dev
+  date_from:
+    description: Optional lower bound date (YYYY-MM-DD)
+    default: ""
+  date_to:
+    description: Optional upper bound date (YYYY-MM-DD)
+    default: ""
+
+resources:
+  pipelines:
+    pipeline_indicators_pipeline:
+      name: indicators_pipeline
+      configuration:
+        catalog: francisco_martin_workspace
+        schema: project_77_indicators
+      libraries:
+        - glob:
+            include: pipelines/indicators_pipeline/transformations/**
+      schema: project_77_indicators
+      continuous: false
+      development: false
+      photon: true
+      channel: CURRENT
+      catalog: ${var.catalog}
+      serverless: true
+      root_path: pipelines/indicators_pipeline
+
+  jobs:
+    indicators_processing_job:
+      name: indicators_processing_job
+      queue:
+        enabled: true
+      tasks:
+        - task_key: extract_data_esios_api
+          notebook_task:
+            notebook_path: notebooks/esios_api/extract_indicators.ipynb
+            source: WORKSPACE
+            base_parameters:
+              catalog: ${var.catalog}
+              schema: ${var.schema}
+              scope: ${var.scope}
+              date_from: ${var.date_from}
+              date_to: ${var.date_to}
+          environment_key: Default
+
+        - task_key: process_indicators_data
+          depends_on:
+            - task_key: extract_data_esios_api
+          pipeline_task:
+            pipeline_id: ${resources.pipelines.pipeline_indicators_pipeline.id}
+            full_refresh: false
+          timeout_seconds: 3600
+          health:
+            rules:
+              - metric: RUN_DURATION_SECONDS
+                op: GREATER_THAN
+                value: 1800
+
+        - task_key: create_indicators_metric_view
+          depends_on:
+            - task_key: process_indicators_data
+          notebook_task:
+            notebook_path: notebooks/metric_views/indicators_metric_view.ipynb
+            source: WORKSPACE
+            base_parameters:
+              catalog: ${var.catalog}
+              schema: ${var.schema}
+              scope: ${var.scope}
+              date_from: ${var.date_from}
+              date_to: ${var.date_to}
+          environment_key: Default
+
+      environments:
+        - environment_key: Default
+          spec:
+            environment_version: "4"
+      performance_target: STANDARD
+
+targets:
+  dev:
+    default: true
+    workspace:
+      host: ""
+      root_path: "/Workspace/Users/franciscojavier.martindeblas@databricks.com/project_77"
+    variables:
+      catalog: francisco_martin_workspace
+      schema: project_77_indicators
+      scope: project-77-dev
+    resources:
+      jobs:
+        indicators_processing_job:
+          tasks:
+            - task_key: process_indicators_data
+              email_notifications:
+                on_failure:
+                  - francisco.martin@databricks.com
+
+  prod:
+    workspace:
+      host: ""
+      root_path: "/Workspace/Shared/project_77"
+    variables:
+      catalog: ""
+      schema: project_77_indicators
+      scope: project-77-prod
+    resources:
+      jobs:
+        indicators_processing_job:
+          tasks:
+            - task_key: process_indicators_data
+              email_notifications:
+                on_failure: []
