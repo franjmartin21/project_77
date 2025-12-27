@@ -1,4 +1,8 @@
 CREATE STREAMING TABLE indicators_metrics_raw
+TBLPROPERTIES (
+  "quality" = "bronze",
+  "pipelines.reset.allowed" = "false"
+)
 AS
 SELECT
   *,
@@ -30,7 +34,10 @@ FROM STREAM READ_FILES(
 )
 LATERAL VIEW explode(indicator.values) AS measurements;
 
-CREATE OR REFRESH STREAMING TABLE indicators_metrics;
+CREATE OR REFRESH STREAMING TABLE indicators_metrics
+TBLPROPERTIES (
+  "quality" = "silver"
+);
 
 CREATE FLOW indicators_metrics_cdc_flow 
 AS AUTO CDC INTO indicators_metrics
@@ -60,6 +67,9 @@ CREATE OR REFRESH MATERIALIZED VIEW indicators_dimension (
   description STRING COMMENT 'Indicator description'
 )
 COMMENT 'Dimension table for indicator attributes'
+TBLPROPERTIES (
+  "quality" = "gold"
+)
 AS
 SELECT DISTINCT CAST(id AS LONG) AS id,
                 role,
@@ -73,6 +83,9 @@ CREATE OR REFRESH MATERIALIZED VIEW magnitud_dimension (
   name STRING COMMENT 'Name of the magnitud'
 )
 COMMENT 'Dimension table for magnitud attributes'
+TBLPROPERTIES (
+  "quality" = "gold"
+)
 AS
 SELECT DISTINCT
   m.id AS id,
@@ -85,6 +98,9 @@ CREATE OR REPLACE MATERIALIZED VIEW tiempo_dimension (
   name STRING COMMENT 'Name of the tiempo'
 )
 COMMENT 'Dimension table for tiempo attributes'
+TBLPROPERTIES (
+  "quality" = "gold"
+)
 AS
 SELECT DISTINCT
   t.id AS id,
@@ -117,6 +133,9 @@ CREATE OR REFRESH MATERIALIZED VIEW indicators_metrics_fact (
   metadata_file_modification_time TIMESTAMP COMMENT 'Source file modification time'
 )
 COMMENT 'Fact table for indicator measurements'
+TBLPROPERTIES (
+  "quality" = "gold"
+)
 AS
 SELECT
   id,
