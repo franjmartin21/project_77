@@ -59,25 +59,6 @@ KEYS(id, datetime_utc)
 SEQUENCE BY(metadata_file_modification_time)
 STORED AS SCD TYPE 1;
 
-CREATE OR REFRESH MATERIALIZED VIEW indicators_dimension (
-  id LONG COMMENT 'Unique identifier for indicator',
-  role STRING COMMENT 'Indicator Role or Type (price, demand, energy_source, energy_predictor)',
-  name STRING COMMENT 'Indicator name',
-  short_name STRING COMMENT 'Indicator short name',
-  description STRING COMMENT 'Indicator description'
-)
-COMMENT 'Dimension table for indicator attributes'
-TBLPROPERTIES (
-  "quality" = "gold"
-)
-AS
-SELECT DISTINCT CAST(id AS LONG) AS id,
-                role,
-                name,
-                short_name,
-                description
-FROM read_files('/Volumes/${catalog}/${schema}/indicators_volume/indicators_dimension_master_dataset.csv', format => 'csv');
-
 CREATE OR REFRESH MATERIALIZED VIEW magnitud_dimension (
   id BIGINT COMMENT 'Unique identifier for magnitud',
   name STRING COMMENT 'Name of the magnitud'

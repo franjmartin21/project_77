@@ -1,12 +1,25 @@
 id,role,name,short_name,description
-1001,price,Término de facturación de energía activa del PVPC 2.0TD,PVPC T. 2.0TD,"Precio horario del término de energía que se aplican en la factura eléctrica de los consumidores."
-600,price,Precio mercado SPOT Diario,Mercado SPOT,"El Mercado Diario es un mercado mayorista en el que se establecen transacciones de energía eléctrica para el día siguiente."
-544,demand,Demanda prevista,Demanda prevista,"Es la previsión de consumo que RE elabora teniendo en cuenta los valores de consumo registrados en periodos precedentes."
-1293,demand,Demanda real,Demanda real,"Es el valor real de la demanda de energía eléctrica medida en tiempo real."
-541,energy_predictor,Previsión de la producción eólica peninsular,Previsión eólica,"Previsión horaria de energía eólica según el Modelo de Predicción Eólica del Operador del Sistema."
-1779,energy_predictor,Previsión diaria D+1 fotovoltaica,Previsión diaria D+1 fotovoltaica,"Previsión de generación solar para el día siguiente."
-14,energy_predictor,Generación programada PBF Solar fotovoltaica,Solar fotovoltaica,"Es el programa de energía diario... de las diferentes Unidades de Programación correspondientes a ventas."
-12,energy_source,Generación programada PBF Eólica terrestre,Eólica terrestre,"Generación programada para eólica terrestre."
-1,energy_source,Generación programada PBF Hidráulica UGH,Hidráulica UGH,"Generación programada para hidráulica gestionable (embalses)."
-4,energy_source,Generación programada PBF Nuclear,Nuclear,"Generación programada para nuclear (Carga base)."
-9,energy_source,Generación programada PBF Ciclo combinado,Ciclo combinado,"Generación programada para gas (Precio marginal)."
+1001,price_consumer,Término de facturación de energía activa del PVPC 2.0TD,PVPC T. 2.0TD,The final hourly price applied to consumer bills (Energy + Tolls).
+600,price_market,Precio mercado SPOT Diario,Mercado SPOT,The raw daily market price (OMIE).
+544,demand_forecast,Demanda prevista,Demanda prevista,Official consumption forecast used to set the price.
+1293,demand_real,Demanda real,Demanda real,Actual real-time consumption.
+541,energy_forecast,Previsión de la producción eólica peninsular,Previsión eólica,Meteorological Prediction. Available Day-Ahead.
+12,energy_schedule,Generación programada PBF Eólica terrestre,Eólica terrestre,Market Commitment (Plan). The amount sold in the auction.
+551,energy_real,Generación T.Real eólica,Eólica,Real-time generation (Actual).
+1779,energy_forecast,Previsión diaria D+1 fotovoltaica,Previsión diaria D+1 fotovoltaica,Meteorological Prediction for Solar PV.
+14,energy_schedule,Generación programada PBF Solar fotovoltaica,Solar fotovoltaica,Market Commitment (Plan). The amount sold in the auction.
+1155,energy_real,Generación T.Real Solar fotovoltaica,Solar fotovoltaica,Real-time generation (Actual).
+543,energy_forecast,Generación prevista Solar térmica,Solar térmica,Meteorological Prediction for Solar Thermal.
+15,energy_schedule,Generación programada PBF Solar térmica,Solar térmica,Market Commitment (Plan).
+1294,energy_real,Generación T.Real Solar térmica,Solar térmica,Real-time generation (Actual).
+1,energy_schedule,Generación programada PBF Hidráulica UGH,Hidráulica UGH,Schedule for Managed Dams (Strategic).
+2,energy_schedule,Generación programada PBF Hidráulica no UGH,Hidráulica no UGH,Schedule for Run-of-River (Rain-driven).
+546,energy_real,Generación T.Real hidráulica,Hidráulica,Real-time generation (Total Hydro).
+4,energy_schedule,Generación programada PBF Nuclear,Nuclear,Schedule (Base Load Plan).
+549,energy_real,Generación T.Real nuclear,Nuclear,Real-time generation (Actual).
+9,energy_schedule,Generación programada PBF Ciclo combinado,Ciclo combinado,Schedule (Market Plan).
+550,energy_real,Generación T.Real C.Combinado,Ciclo combinado,Real-time generation (Price Setter).
+10167,energy_schedule,Generación programada PBF Carbón,Carbón,Schedule (Market Plan).
+547,energy_real,Generación T.Real carbón,Carbón,Real-time generation (Actual).
+10086,energy_schedule,Generación programada PBF Cogeneración,Cogeneración,Schedule (Market Plan).
+1297,energy_real,Generación T.Real Cogeneración y resto,Cogeneración y resto,Real-time generation (Actual).
